@@ -102,13 +102,14 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Employee": {
+		"before_save": "erpnext_mock_project.erpnext_mock_project.doctype.employee_deduction.employee.absent_cal",
+		"validate": "erpnext_mock_project.erpnext_mock_project.doctype.employee_deduction.employee.total_working",
+        "validate": "erpnext_mock_project.erpnext_mock_project.doctype.employee_deduction.employee.present_working",
+		# "on_trash": "method"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
