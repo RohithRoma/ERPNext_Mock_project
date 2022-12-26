@@ -18,7 +18,9 @@ frappe.ui.form.on('Deduction Detail', {
 				// code snippet
 				console.log(r)
 				// frappe.msgprint(r)
-				frappe.model.set_value(cdt,cdn,'end_date',r.message)
+				if(dd.deduction_type == 'Onetime'){
+					frappe.model.set_value(cdt,cdn,'end_date',r.message)
+				}
 			}
 		});
 	},
@@ -114,7 +116,13 @@ frappe.ui.form.on('Deduction Detail', {
 				callback : function(r) {
 					console.log(r)
 					var childTable = cur_frm.add_child("deduction_calculation");
-					childTable.month=r.message
+
+					if(d.deduction_type == 'Onetime'){
+						childTable.month=r.message;
+						childTable.onetime = d.amount
+					}
+					
+					
 
 
 					cur_frm.refresh_fields("deduction_calculation");
@@ -122,8 +130,25 @@ frappe.ui.form.on('Deduction Detail', {
 				}
 			})
 		}
-	}
+	},
+	// amount: function(frm,cdt,cdn) {
+    //     var d = locals[cdt][cdn];
+
+	// 	if(d.deduction_type = 'Onetime'){
+
+	// 		var amt = d.amount
+	// 		var child = cur_frm.add_child("deduction_calculation");
+	// 		child.onetime = amt
+
+	// 		cur_frm.refresh_fields("deduction_calculation");
+	// 	}
+        
+    //    frm.refresh_field('child_table_name');
+    // }
 });
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,3 +170,22 @@ frappe.ui.form.on('Deduction Detail', {
 // 	}
 	
 // });
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// frappe.ui.form.on('Deduction Calculation',{
+// 		month: function(frm, cdt, cdn) {
+// 			var mon = locals[cdt][cdn]
+// 			frappe.call({
+// 				method: "erpnext_mock_project.erpnext_mock_project.doctype.employee_deduction.employee_deduction.rdm",
+// 				args : {data : mon.month},
+// 				callback: function(r) {
+// 					console.log(r)
+// 					frappe.msgprint(r.message)
+// 				}
+// 			})
+// 		}
+// 	});
